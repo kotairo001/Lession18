@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,800;0,900;1,200;1,300;1,400;1,600;1,800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/7a3d5b703f.js" crossorigin="anonymous"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url(./img/background.webp);
+            color: whitesmoke;
+            line-height: 2;
+            font-size: 22px;
+
+        }
+        .container {
+            width: 30%;
+            height: 520px;
+            margin: auto;
+            padding: auto;
+            margin-top: 100px;
+            background-color: rgb(170,135,142);
+            padding: 15px;
+            font-weight: 500;
+        }
+        h2 {
+            padding: 0;
+            margin: 0;
+        }
+        #email {
+            width: 100%;
+            height: 40px;
+            /* outline: none; */
+        }
+        .container_password, .container_cfpassword {
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+        #password, #cfpassword {
+            width: 100%;
+            height: 40px;
+
+        }
+        input:focus {
+            box-shadow: 0 0 5px rgb(241,198,208);
+        }
+        i {
+            padding-left: 10px;
+        }
+        #summit {
+            height: 35px;
+            /* margin-top: 150px; */
+            width: 100%;
+            font-size: 18px;
+            font-family: 'Poppins', sans-serif;
+
+
+        }
+        span {
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register Form</h2>
+        <form>
+            <label for="email">Email:</label><br>
+            <input type="email" name="email" id="email" required placeholder="abc@xyz.com" onchange="validateEmail ()"><br>
+            <div id="alert"></div>
+            <label for="psw">Password:</label><br>
+            <div class="container_password">
+                <input type="password" name="password" id="password" required>
+                <!-- <i id="eye_01" class="fa-regular fa-eye-slash" onclick="showPassword()"></i><br> -->
+            </div>
+            <div id="invalidpsw"></div>
+            <input type="checkbox" name="" class="showedPassword" onclick="showPassword()">
+            <span>Show password </span><br>
+            <label for="cfpsw">Confirm password:</label><br>
+            <div class="container_cfpassword">
+                <input type="password" name="cfpsw" id="cfpassword" required>
+                <!-- <i id="eye_02" class="fa-regular fa-eye-slash" onclick="showCfPassword()"></i><br> -->
+            </div>
+            <div id="cfmessage"></div>
+            <input type="checkbox" name="" class="showedPassword" onclick="showCfPassword()">
+            <span>Show password </span><br>
+            <input type="button"  value="Register" id="summit" onclick="validatePassword(),confirmPassword (),addStorage () "> 
+        </form>
+    </div>
+    <script>
+        var email = document.getElementById("email");
+        var message = document.getElementById("alert");
+        var password = document.getElementById("password");
+        var invalidpsw = document.getElementById("invalidpsw");
+        var cfpassword = document.getElementById("cfpassword");
+        var condition = document.getElementById("condition");
+        var eye1 = document.getElementById("eye_01");
+        var eye2 = document.getElementById("eye_02");
+        var btn = document.getElementById("summit");
+        let arr = [];
+        let keyid = false;
+        let keypsw = false;
+        let keycf = false;
+        function showPassword () {
+            if (password.type === "password") {
+                password.type = "text";
+                eye1.classList.remove("fa-eye-slash");
+                eye1.classList.add("fa-eye");
+            } else {
+                eye1.classList.remove("fa-eye");
+                eye1.classList.add("fa-eye-slash");
+                password.type = "password";
+            }
+        }
+        function showCfPassword () {
+            if (cfpassword.type === "password") {
+                cfpassword.type = "text";
+                eye2.classList.remove("fa-eye-slash");
+                eye2.classList.add("fa-eye");
+            } else {
+                eye2.classList.remove("fa-eye");
+                eye2.classList.add("fa-eye-slash");
+                cfpassword.type = "password";
+            }
+        }
+        function validateEmail () {
+            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (email.value.match(mailformat) && email.value!="") {
+                email.focus();
+                message.innerHTML = ""
+                keyid = true
+                console.log(keyid)
+            } else {
+                email.focus();
+                message.innerHTML = "Your email is invalid";
+                message.style.color = "red";
+                message.style.fontSize = 12 + "px";
+                event.preventDefault()
+            }
+        }
+        function validatePassword() {
+            var passw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$/;
+            // var upperCaseLetters = /[A-Z]/g;
+            // var number = /[0-9]/g;
+            if (password.value.match(passw)&&assword.value!="") {
+                invalidpsw.innerHTML = "";
+                password.focus();
+                keypsw = true
+                console.log(keypsw)
+            } else {
+                password.focus();
+                invalidpsw.innerHTML = "Your password has to have an Uppercase and a Number";
+                invalidpsw.style.color = "red";
+                // alert("Your password has to have an Uppercase and a Number")
+                invalidpsw.style.fontSize = 12 + "px";
+                event.preventDefault()
+            }}
+            function confirmPassword () {
+                if(password.value === cfpassword.value) {
+                    cfpassword.focus();   
+                    cfmessage.innerHTML = "";
+                    keycf = true
+                    console.log(keycf)
+                } else {
+                    cfpassword.focus();
+                    cfmessage.innerHTML = "Your password is not right!";
+                    cfmessage.style.color = "red";
+                    cfmessage.style.fontSize = 12 + "px";
+                    event.preventDefault()
+                }
+            }
+
+            function addStorage () {
+                let Account = function (id,psw) {
+                    this.id = id;
+                    this.psw = psw
+                }
+                let account = new Account(email.value,password.value)
+                arr.push(account);
+                // console.log("arr");
+                if (email.value!="" && password.value!="" && keyid === true&&keypsw === true&&keycf === true) {
+                    localStorage.setItem("account", JSON.stringify(arr))
+                    window.location.href="./Onclass1-1.html"}
+                // } else {
+                //     event.preventDefault()
+                // }
+                // localStorage.setItem("password", password.value)
+            }
+            // btn.addEventListener("click",addStorage());
+            // })
+    </script>
+</body>
+</html>
